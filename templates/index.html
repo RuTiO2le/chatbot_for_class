@@ -6,6 +6,7 @@
     <title>GenAI-Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
     <style>
         * {
             box-sizing: border-box;
@@ -21,12 +22,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 20px; /* 余白を追加 */
+            margin: 20px;
         }
 
         #chat-container {
-            width: 100%; /* ウィンドウ幅いっぱいに広げる */
-            max-width: 400px; /* 最大幅を設定 */
+            width: 100%;
+            max-width: 400px;
             background-color: #fff;
             border-radius: 8px;
             overflow: hidden;
@@ -52,18 +53,19 @@
             border-radius: 6px;
             max-width: 70%;
         }
-
+      
         .userText {
-            background-color: #3498db;
-            color: #fff;
-            margin-right: auto;
-            text-align: right;
-        }
-
-        .botText {
             background-color: #2ecc71;
             color: #fff;
             margin-left: auto;
+            text-align: left;
+        }
+  
+        .botText {
+            background-color: #3498db;
+            color: #fff;
+            margin-right: auto;
+            text-align: left;
         }
 
         #userInput {
