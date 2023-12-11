@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI-Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px; /* 余白を追加 */
+        }
+
+        #chat-container {
+            width: 100%; /* ウィンドウ幅いっぱいに広げる */
+            max-width: 400px; /* 最大幅を設定 */
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #chatbox {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .userText,
+        .botText {
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            max-width: 70%;
+        }
+
+        .userText {
+            background-color: #3498db;
+            color: #fff;
+            margin-right: auto;
+            text-align: right;
+        }
+
+        .botText {
+            background-color: #2ecc71;
+            color: #fff;
+            margin-left: auto;
+        }
+
+        #userInput {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        #textInput {
+            flex: 1;
+            border: none;
+            border-bottom: 2px solid #3498db;
+            outline: none;
+            padding: 8px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        #sendButton {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #sendButton:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chatbox"></div>
+        <div id="userInput">
+            <input id="textInput" type="text" name="msg" placeholder="Message">
+            <button id="sendButton" onclick="getBotResponse()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function getBotResponse() {
+            var rawText = $("#textInput").val();
+            var userHtml = '<div class="message userText"><p>' + rawText + "</p></div>";
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+            scrollToBottom();
+            $.get("/get", { msg: rawText }).done(function (data) {
+                var botHtml = '<div class="message botText"><p>' + data + "</p></div>";
+                $("#chatbox").append(botHtml);
+                scrollToBottom();
+            });
+        }
+
+        $("#textInput").keypress(function (e) {
+            if (e.which == 13) {
+                getBotResponse();
+            }
+        });
+
+        function scrollToBottom() {
+            var chatbox = document.getElementById("chatbox");
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

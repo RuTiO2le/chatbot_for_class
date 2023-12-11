@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI-Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <script>
+        function getBotResponse() {
+            var rawText = $("#textInput").val();
+            var userHtml = '<div class="message userText"><p>' + rawText + "</p></div>";
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+            scrollToBottom();
+            $.get("/get", { msg: rawText }).done(function (data) {
+                var botHtml = '<div class="message botText"><p>' + data + "</p></div>";
+                $("#chatbox").append(botHtml);
+                scrollToBottom();
+            });
+        }
+  
+        $("#textInput").keypress(function (e) {
+            if (e.which == 13) {
+                getBotResponse();
+            }
+        });
+  
+        function scrollToBottom() {
+            var chatbox = document.getElementById("chatbox");
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+    </script>
+    <div id="chat-container" class="rounded overflow-hidden shadow-lg p-3 bg-white" style="width: 100%; max-width: 400px;">
+        <div id="chatbox" class="p-3 mb-3 overflow-auto" style="max-height: 300px"></div>
+        <div id="userInput" class="px-3 d-flex align-items-center">
+            <input id="textInput" type="text" name="msg" placeholder="Message" class="form-control mr-3 border-0 rounded-0">
+            <button id="sendButton" onclick="getBotResponse()" class="btn btn-primary">Send</button>
+        </div>
+    </div>
+
+    <!-- <script src="index.js"></script> -->
+</body>
+</html>
